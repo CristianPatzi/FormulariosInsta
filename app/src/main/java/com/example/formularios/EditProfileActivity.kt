@@ -29,6 +29,8 @@ class EditProfileActivity (context: Context): SQLiteOpenHelper(context, "Usuario
         db?.execSQL(sqljugadores)
     }
 
+
+    //////
     override fun onUpgrade(
         db: SQLiteDatabase?,
         oldVersion: Int,
