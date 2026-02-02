@@ -6,12 +6,13 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.google.android.gms.common.data.DataHolder
+import com.example.formularios.DataHolder
 import kotlin.jvm.java
 
 
@@ -19,7 +20,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var imgPerfil: ImageView
     private lateinit var txtNombre: TextView
     private lateinit var txtDescripcion: TextView
-    private lateinit var layoutPublicaciones: LinearLayout
+    private lateinit var layoutPublicaciones: ConstraintLayout
 
     private val PICK_IMAGE = 100
     private val PICK_PROFILE = 200
