@@ -7,10 +7,10 @@ import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.common.data.DataHolder
-class EditProfileActivity (context: Context): SQLiteOpenHelper(context, "JugadoresSQL", null, 1) {
+class EditProfileActivity (context: Context): SQLiteOpenHelper(context, "UsuariosSQL", null, 1) {
 
     override fun onCreate(db: SQLiteDatabase?){
-        val sqlcreate = "CREATE TABLE Jugadores (id INTEGER PRIMARY KEY AUTOINCREMENT, DNI TEXT, nombre TEXT, apellido TEXT)".trimIndent()
+        val sqlcreate = "CREATE TABLE Usuarios (id INTEGER PRIMARY KEY AUTOINCREMENT, DNI TEXT, nombre TEXT, apellido TEXT, descripcion TEXT, estadoCivil TEXT, genero TEXT, Pais TEXT, Ciudad TEXT, fechaNacimiento DATE)".trimIndent()
         val sqljugadores = """
             INSERT INTO Jugadores (DNI, nombre, apellido) VALUES
             ('18944738S', 'Cristian', 'Patzi Frias'),
