@@ -78,14 +78,30 @@
                 android:orientation="horizontal">
 
                 <RadioButton
+                    android:id="@+id/rbHombre"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Opción 1"/>
+                    android:text="Hombre" />
 
                 <RadioButton
+                    android:id="@+id/rbMujer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Opción 2"/>
+                    android:text="Mujer" />
+
+                <RadioButton
+                    android:id="@+id/rbOtro"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Otro" />
+
+                <RadioButton
+                    android:id="@+id/rbNoDecir"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Prefiero no decirlo" />
             </RadioGroup>
 
             <CheckBox
