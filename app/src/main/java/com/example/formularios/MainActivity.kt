@@ -20,7 +20,11 @@ import kotlin.jvm.java
 class MainActivity : AppCompatActivity() {
     private lateinit var imgPerfil: ImageView
     private lateinit var txtNombre: TextView
+    private lateinit var txtGenero: TextView
     private lateinit var txtDescripcion: TextView
+    private lateinit var txtOpcion: TextView
+
+    private lateinit var txtPerfilPublico: TextView
     private lateinit var layoutPublicaciones: ConstraintLayout
 
     private var contadorPublicaciones = 0
@@ -36,7 +40,20 @@ class MainActivity : AppCompatActivity() {
         imgPerfil = findViewById(R.id.imgPerfil)
         txtNombre = findViewById(R.id.txtNombre)
         txtDescripcion = findViewById(R.id.txtDescripcion)
+        txtGenero = findViewById(R.id.txtGenero)
         layoutPublicaciones = findViewById(R.id.layoutPublicaciones)
+        txtOpcion = findViewById(R.id.txtOpcion)
+        txtPerfilPublico = findViewById(R.id.txtPerfilPublico)
+
+
+
+        txtNombre.text = "Millan"
+        txtDescripcion.text = "Buenas soy programador de prácticas. Un saludo"
+        txtGenero.text = "Hombre"
+        txtOpcion.text = "Espana"
+        txtPerfilPublico.text = "Privado"
+        imgPerfil.setImageResource(R.drawable.perfil1)
+
 
         publicaciones = listOf(
             findViewById(R.id.pub1),
@@ -70,24 +87,26 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        txtNombre.text = DataHolder.nombre
-        txtDescripcion.text = DataHolder.descripcion
+        if (DataHolder.nombre.isNotEmpty())
+            txtNombre.text = DataHolder.nombre
 
-        // Foto de perfil
+        if (DataHolder.descripcion.isNotEmpty())
+            txtDescripcion.text = DataHolder.descripcion
+
+        if (DataHolder.genero.isNotEmpty())
+            txtGenero.text = "Género: ${DataHolder.genero}"
+
+        if (DataHolder.opcionSeleccionada.isNotEmpty())
+            txtOpcion.text = "Opción: ${DataHolder.opcionSeleccionada}"
+
+        txtPerfilPublico.text =
+            if (DataHolder.perfilPublico) "Perfil Público" else "Perfil Privado"
+
         DataHolder.fotoPerfil?.let {
             imgPerfil.setImageURI(it)
         }
-
-        // Mostrar género
-        findViewById<TextView>(R.id.txtGenero).text = "Género: ${DataHolder.genero}"
-
-        // Mostrar radio button elegido
-        findViewById<TextView>(R.id.txtOpcion).text = "Opción: ${DataHolder.opcionSeleccionada}"
-
-        // Mostrar checkbox
-        findViewById<TextView>(R.id.txtPerfilPublico).text =
-            if (DataHolder.perfilPublico) "Perfil Público" else "Perfil Privado"
     }
+
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -136,10 +136,8 @@ class EditProfileActivity : AppCompatActivity() {
                 val bitmap = data?.extras?.get("data") as? Bitmap
                 if (bitmap != null) {
 
-                    // Mostrar la foto en el ImageView
                     imgPerfil.setImageBitmap(bitmap)
 
-                    // Convertir a URI y guardarlo
                     val uri = saveBitmapToCache(bitmap)
                     uriPerfil = uri
                     DataHolder.fotoPerfil = uri
