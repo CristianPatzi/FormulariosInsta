@@ -34,93 +34,114 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/logo" />
 
-        <LinearLayout
-            android:id="@+id/linearLayout"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="75dp"
-            android:orientation="vertical"
-            android:padding="20dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/imagenPerfil"
-                android:layout_width="251dp"
-                android:layout_height="130dp"
-                app:srcCompat="@drawable/perfil1" />
-
-            <Button
-                android:id="@+id/btnActualizarFoto"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Actualizar foto" />
+                android:layout_height="wrap_content">
 
-            <EditText
-                android:id="@+id/edtNombre"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Nombre" />
+                <ImageView
+                    android:id="@+id/imagenPerfil"
+                    android:layout_width="251dp"
+                    android:layout_height="130dp"
+                    android:layout_marginTop="70dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/perfil1"
+                    tools:layout_editor_absoluteX="20dp" />
 
-            <EditText
-                android:id="@+id/edtDescripcion"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Descripción" />
+                <Button
+                    android:id="@+id/btnActualizarFoto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Actualizar foto"
+                    app:layout_constraintTop_toBottomOf="@+id/imagenPerfil"
+                    tools:layout_editor_absoluteX="-27dp" />
 
-            <Spinner
-                android:id="@+id/spinnerGenero"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:entries="@array/pais" />
+                <EditText
+                    android:id="@+id/edtNombre"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Nombre"
+                    app:layout_constraintBottom_toTopOf="@+id/edtDescripcion"
+                    app:layout_constraintTop_toBottomOf="@+id/btnActualizarFoto"
+                    tools:layout_editor_absoluteX="0dp" />
 
-            <RadioGroup
-                android:id="@+id/radioGroup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/edtDescripcion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Descripción"
+                    app:layout_constraintBottom_toTopOf="@+id/spinnerGenero"
+                    app:layout_constraintTop_toBottomOf="@+id/edtNombre"
+                    tools:layout_editor_absoluteX="-56dp" />
 
-                <RadioButton
-                    android:id="@+id/rbHombre"
+                <Spinner
+                    android:id="@+id/spinnerGenero"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/pais"
+                    app:layout_constraintBottom_toTopOf="@+id/radioGroup"
+                    app:layout_constraintTop_toBottomOf="@+id/edtDescripcion"
+                    tools:layout_editor_absoluteX="-41dp" />
+
+                <RadioGroup
+                    android:id="@+id/radioGroup"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Hombre" />
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toTopOf="@+id/cbPerfilPublico"
+                    app:layout_constraintTop_toBottomOf="@+id/spinnerGenero"
+                    tools:layout_editor_absoluteX="20dp">
 
-                <RadioButton
-                    android:id="@+id/rbMujer"
+                    <RadioButton
+                        android:id="@+id/rbHombre"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hombre" />
+
+                    <RadioButton
+                        android:id="@+id/rbMujer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Mujer" />
+
+                    <RadioButton
+                        android:id="@+id/rbOtro"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Otro" />
+
+                    <RadioButton
+                        android:id="@+id/rbNoDecir"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Prefiero no decirlo" />
+                </RadioGroup>
+
+                <CheckBox
+                    android:id="@+id/cbPerfilPublico"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Perfil Público"
+                    app:layout_constraintBottom_toTopOf="@+id/btnGuardar"
+                    app:layout_constraintTop_toBottomOf="@+id/radioGroup"
+                    tools:layout_editor_absoluteX="-16dp" />
+
+                <Button
+                    android:id="@+id/btnGuardar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Mujer" />
+                    android:text="Guardar"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    tools:layout_editor_absoluteX="0dp" />
 
-                <RadioButton
-                    android:id="@+id/rbOtro"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Otro" />
-
-                <RadioButton
-                    android:id="@+id/rbNoDecir"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Prefiero no decirlo" />
-            </RadioGroup>
-
-            <CheckBox
-                android:id="@+id/cbPerfilPublico"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Perfil Público" />
-
-            <Button
-                android:id="@+id/btnGuardar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Guardar" />
-
-        </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
