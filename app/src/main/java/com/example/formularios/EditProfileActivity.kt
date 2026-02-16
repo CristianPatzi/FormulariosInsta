@@ -2,8 +2,12 @@ package com.example.formularios
 
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
@@ -12,10 +16,13 @@ import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.FileProvider
+import java.io.File
 
 class EditProfileActivity : AppCompatActivity() {
 
     private val PICK_PROFILE = 200
+    private val CAMERA_REQUEST = 100
     private lateinit var imgPerfil: ImageView
     private var uriPerfil: Uri? = null
 
@@ -68,14 +75,26 @@ class EditProfileActivity : AppCompatActivity() {
             uriPerfil = DataHolder.fotoPerfil
         }
 
+//        btnActualizarFoto.setOnClickListener {
+//            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+//            intent.addCategory(Intent.CATEGORY_OPENABLE)
+//            intent.type = "image/*"
+//            intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION or
+//                    Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
+//            startActivityForResult(intent, PICK_PROFILE)
+//        }
+
         btnActualizarFoto.setOnClickListener {
-            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-            intent.addCategory(Intent.CATEGORY_OPENABLE)
-            intent.type = "image/*"
-            intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION or
-                    Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
-            startActivityForResult(intent, PICK_PROFILE)
+            if (checkSelfPermission(android.Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+
+                requestPermissions(arrayOf(android.Manifest.permission.CAMERA), CAMERA_REQUEST)
+
+            } else {
+                abrirCamara()
+            }
         }
+
 
         btnGuardar.setOnClickListener {
 
@@ -105,7 +124,6 @@ class EditProfileActivity : AppCompatActivity() {
 
             finish()
         }
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -114,20 +132,49 @@ class EditProfileActivity : AppCompatActivity() {
         if (resultCode == Activity.RESULT_OK && data != null) {
             val uri = data.data
 
-            if (requestCode == PICK_PROFILE && uri != null) {
+            if (requestCode == PICK_PROFILE && resultCode == Activity.RESULT_OK) {
+                val bitmap = data?.extras?.get("data") as? Bitmap
+                if (bitmap != null) {
 
-                val flags = data.flags and
-                        (Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+                    // Mostrar la foto en el ImageView
+                    imgPerfil.setImageBitmap(bitmap)
 
-                try {
-                    contentResolver.takePersistableUriPermission(uri, flags)
-                } catch (e: Exception) {
-                    e.printStackTrace()
+                    // Convertir a URI y guardarlo
+                    val uri = saveBitmapToCache(bitmap)
+                    uriPerfil = uri
+                    DataHolder.fotoPerfil = uri
                 }
-
-                imgPerfil.setImageURI(uri)
-                uriPerfil = uri
             }
+
         }
+    }
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode == CAMERA_REQUEST && grantResults.isNotEmpty()
+            && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+            abrirCamara()
+        }
+    }
+
+    private fun saveBitmapToCache(bitmap: Bitmap): Uri {
+        val file = File(cacheDir, "foto_perfil.jpg")
+        file.outputStream().use {
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it)
+        }
+        return FileProvider.getUriForFile(
+            this,
+            "${packageName}.provider",
+            file
+        )
+    }
+    private fun abrirCamara() {
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        startActivityForResult(intent, PICK_PROFILE)
     }
 }
