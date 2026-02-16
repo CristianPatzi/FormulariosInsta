@@ -86,6 +86,7 @@ class ContactsActivity : AppCompatActivity() {
             contador++
         }
 
+        bindingContacts.contactsTextView.text = ""
         bindingContacts.TotalTextView.text = "Total Contactos: $contador"
     }
 

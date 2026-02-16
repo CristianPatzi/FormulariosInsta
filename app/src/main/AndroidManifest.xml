@@ -32,6 +32,8 @@
         </activity>
 
         <activity android:name=".EditProfileActivity" />
+        <activity android:name=".ContactsActivity" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
