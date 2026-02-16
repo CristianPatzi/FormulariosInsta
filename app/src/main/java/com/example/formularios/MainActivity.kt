@@ -70,6 +70,12 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btnEditar).setOnClickListener {
             startActivity(Intent(this, EditProfileActivity::class.java))
         }
+        findViewById<TextView>(R.id.textNumero).setOnClickListener {
+            startActivity(Intent(this, ContactsActivity::class.java))
+        }
+        findViewById<Button>(R.id.buttonContacts).setOnClickListener {
+            startActivity(Intent(this, ContactsActivity::class.java))
+        }
 
         findViewById<Button>(R.id.btnSubirFoto).setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK)
