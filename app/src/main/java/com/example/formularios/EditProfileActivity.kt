@@ -126,26 +126,48 @@ class EditProfileActivity : AppCompatActivity() {
         }
     }
 
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//
+//        if (resultCode == Activity.RESULT_OK && data != null) {
+//            val uri = data.data
+//
+//            if (requestCode == PICK_PROFILE && resultCode == Activity.RESULT_OK) {
+//                val bitmap = data?.extras?.get("data") as? Bitmap
+//                if (bitmap != null) {
+//
+//                    imgPerfil.setImageBitmap(bitmap)
+//
+//                    val uri = saveBitmapToCache(bitmap)
+//                    uriPerfil = uri
+//                    DataHolder.fotoPerfil = uri
+//                }
+//            }
+//        }
+//    }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (resultCode == Activity.RESULT_OK && data != null) {
-            val uri = data.data
 
-            if (requestCode == PICK_PROFILE && resultCode == Activity.RESULT_OK) {
-                val bitmap = data?.extras?.get("data") as? Bitmap
+            if (requestCode == PICK_PROFILE) {
+
+                val bitmap = data.extras?.get("data") as? Bitmap
+
                 if (bitmap != null) {
 
                     imgPerfil.setImageBitmap(bitmap)
 
                     val uri = saveBitmapToCache(bitmap)
+
                     uriPerfil = uri
                     DataHolder.fotoPerfil = uri
                 }
             }
-
         }
     }
+
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
