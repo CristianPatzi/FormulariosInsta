@@ -17,8 +17,12 @@ import android.widget.RadioGroup
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
+import androidx.databinding.DataBindingUtil
+import com.example.formularios.databinding.ActivityContactsBinding
+import com.example.formularios.databinding.ActivityEditProfileBinding
 import java.io.File
 
+lateinit var bindingEditProfile: ActivityEditProfileBinding
 class EditProfileActivity : AppCompatActivity() {
 
     private val PICK_PROFILE = 200
@@ -30,44 +34,37 @@ class EditProfileActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_profile)
-
-        val edtNombre = findViewById<EditText>(R.id.edtNombre)
-        val edtDescripcion = findViewById<EditText>(R.id.edtDescripcion)
-        val btnGuardar = findViewById<Button>(R.id.btnGuardar)
-        val btnActualizarFoto = findViewById<Button>(R.id.btnActualizarFoto)
-        val spinner = findViewById<Spinner>(R.id.spinnerGenero)
-        val radioGroup = findViewById<RadioGroup>(R.id.radioGroup)
-        val cbPerfilPublico = findViewById<CheckBox>(R.id.cbPerfilPublico)
+        bindingEditProfile = DataBindingUtil.setContentView(this, R.layout.activity_edit_profile)
 
         imgPerfil = findViewById(R.id.imagenPerfil)
 
         //rellenar campos
         if (DataHolder.nombre != ""){
-            edtNombre.setText(DataHolder.nombre);
+            bindingEditProfile.edtNombre.setText(DataHolder.nombre);
         }
         if (DataHolder.descripcion != ""){
-            edtDescripcion.setText(DataHolder.descripcion);
+            bindingEditProfile.edtDescripcion.setText(DataHolder.descripcion);
         }
         if(DataHolder.genero.isNotEmpty()){
-            val index = (spinner.adapter as ArrayAdapter<String>).getPosition(DataHolder.genero)
-            spinner.setSelection(index)
+            val index = (bindingEditProfile.spinnerGenero.adapter as ArrayAdapter<String>).getPosition(DataHolder.genero)
+            bindingEditProfile.spinnerGenero.setSelection(index)
         }
         if(DataHolder.opcionSeleccionada != null){
             if(DataHolder.opcionSeleccionada == "Hombre"){
-                val rbHombre = radioGroup.getChildAt(0) as RadioButton
+                val rbHombre = bindingEditProfile.radioGroup.getChildAt(0) as RadioButton
                 rbHombre.isChecked = true;
             }else if(DataHolder.opcionSeleccionada == "Mujer"){
-                val rbMujer = radioGroup.getChildAt(1) as RadioButton
+                val rbMujer = bindingEditProfile.radioGroup.getChildAt(1) as RadioButton
                 rbMujer.isChecked = true;
             }else if (DataHolder.opcionSeleccionada == "Otro"){
-                val rbOtro = radioGroup.getChildAt(2) as RadioButton
+                val rbOtro = bindingEditProfile.radioGroup.getChildAt(2) as RadioButton
                 rbOtro.isChecked = true;
             }else if (DataHolder.opcionSeleccionada == "Prefiero no decirlo"){
-                val rbNoDecirlo = radioGroup.getChildAt(3) as RadioButton
+                val rbNoDecirlo = bindingEditProfile.radioGroup.getChildAt(3) as RadioButton
                 rbNoDecirlo.isChecked = true;
             }
         }
-        cbPerfilPublico.isChecked = DataHolder.perfilPublico
+        bindingEditProfile.cbPerfilPublico.isChecked = DataHolder.perfilPublico
 
         //  Mostrar foto si ya existe
         if (DataHolder.fotoPerfil != null) {
@@ -84,7 +81,7 @@ class EditProfileActivity : AppCompatActivity() {
 //            startActivityForResult(intent, PICK_PROFILE)
 //        }
 
-        btnActualizarFoto.setOnClickListener {
+        bindingEditProfile.btnActualizarFoto.setOnClickListener {
             if (checkSelfPermission(android.Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
 
@@ -96,18 +93,16 @@ class EditProfileActivity : AppCompatActivity() {
         }
 
 
-        btnGuardar.setOnClickListener {
+        bindingEditProfile.btnGuardar.setOnClickListener {
 
-            DataHolder.nombre = edtNombre.text.toString()
-            DataHolder.descripcion = edtDescripcion.text.toString()
+            DataHolder.nombre = bindingEditProfile.edtNombre.text.toString()
+            DataHolder.descripcion = bindingEditProfile.edtDescripcion.text.toString()
 
             // Spinner
-            val spinner = findViewById<Spinner>(R.id.spinnerGenero)
-            DataHolder.genero = spinner.selectedItem.toString()
+            DataHolder.genero = bindingEditProfile.spinnerGenero.selectedItem.toString()
 
             // RadioGroup
-            val radioGroup = findViewById<RadioGroup>(R.id.radioGroup)
-            val selectedId = radioGroup.checkedRadioButtonId
+            val selectedId = bindingEditProfile.radioGroup.checkedRadioButtonId
             if (selectedId != -1) {
                 val radioButton = findViewById<RadioButton>(selectedId)
                 DataHolder.opcionSeleccionada = radioButton.text.toString()
@@ -116,8 +111,7 @@ class EditProfileActivity : AppCompatActivity() {
             }
 
             // Checkbox
-            val cbPerfilPublico = findViewById<CheckBox>(R.id.cbPerfilPublico)
-            DataHolder.perfilPublico = cbPerfilPublico.isChecked
+            DataHolder.perfilPublico = bindingEditProfile.cbPerfilPublico.isChecked
 
             // Foto
             DataHolder.fotoPerfil = uriPerfil

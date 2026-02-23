@@ -10,9 +10,11 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import com.example.formularios.databinding.ActivityMainBinding
 import kotlin.jvm.java
 
-
+//lateint var bindingMain : ActivityMainBinding
 class MainActivity : AppCompatActivity() {
     private lateinit var imgPerfil: ImageView
     private lateinit var txtNombre: TextView
@@ -21,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var txtOpcion: TextView
 
     private lateinit var txtPerfilPublico: TextView
+    private lateinit var textNumero: TextView
     private lateinit var layoutPublicaciones: ConstraintLayout
 
     private var contadorPublicaciones = 0
@@ -33,6 +36,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
+//        bindingMain = DataBindingUtil.setContentView(this, R.layout.activity_main)
+
         imgPerfil = findViewById(R.id.imgPerfil)
         txtNombre = findViewById(R.id.txtNombre)
         txtDescripcion = findViewById(R.id.txtDescripcion)
@@ -40,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         layoutPublicaciones = findViewById(R.id.layoutPublicaciones)
         txtOpcion = findViewById(R.id.txtOpcion)
         txtPerfilPublico = findViewById(R.id.txtPerfilPublico)
-
+        textNumero = findViewById(R.id.textNumero)
 
 
         txtNombre.text = "Millan"
@@ -88,7 +93,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-
+        if (DataHolder.contactos.isNotEmpty()) {
+            textNumero.setText(DataHolder.contactosTotales.toString())
+        }
         if (DataHolder.nombre.isNotEmpty())
             txtNombre.text = DataHolder.nombre
 
