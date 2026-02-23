@@ -17,7 +17,6 @@ class ContactsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
 
         bindingContacts = DataBindingUtil.setContentView(this, R.layout.activity_contacts)
 

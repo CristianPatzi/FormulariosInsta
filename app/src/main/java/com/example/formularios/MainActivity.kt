@@ -31,7 +31,6 @@ class MainActivity : AppCompatActivity() {
     private val FOTO_PERFIL = 200
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_main)
         imgPerfil = findViewById(R.id.imgPerfil)
         txtNombre = findViewById(R.id.txtNombre)
