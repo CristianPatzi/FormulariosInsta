@@ -19,7 +19,8 @@ class ContactsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         bindingContacts = DataBindingUtil.setContentView(this, R.layout.activity_contacts)
-
+        if (DataHolder.contactos.isNotEmpty()) {
+            actualizarPantalla() }
         ViewCompat.setOnApplyWindowInsetsListener(bindingContacts.root) { view, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             view.setPadding(
@@ -69,7 +70,6 @@ class ContactsActivity : AppCompatActivity() {
             null,
             null
         )
-
         DataHolder.contactos.clear()
 
         cursor?.use {
@@ -97,8 +97,9 @@ class ContactsActivity : AppCompatActivity() {
             builder.append("• ${c.nombre} - ${c.telefono}\n")
             contador++
         }
+        DataHolder.contactosTotales = contador
 
         bindingContacts.contactsTextView.text = builder.toString()
-        bindingContacts.TotalTextView.text = "Total Contactos: $contador"
+        bindingContacts.TotalTextView.text = "Total Contactos: ${DataHolder.contactosTotales}"
     }
 }

@@ -14,5 +14,6 @@ object DataHolder {
         val telefono: String
     )
     val contactos: ArrayList<Contacto> = arrayListOf()
+    var contactosTotales: Int = 0
 
 }

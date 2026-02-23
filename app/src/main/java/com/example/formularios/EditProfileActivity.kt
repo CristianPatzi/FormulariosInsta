@@ -21,8 +21,8 @@ import java.io.File
 
 class EditProfileActivity : AppCompatActivity() {
 
-    private val FOTO_SACADA = 200
-    private val PETICION_CAMARA = 100
+    private val PICK_PROFILE = 200
+    private val CAMERA_REQUEST = 100
     private lateinit var imgPerfil: ImageView
     private var uriPerfil: Uri? = null
 
@@ -35,49 +35,60 @@ class EditProfileActivity : AppCompatActivity() {
         val edtDescripcion = findViewById<EditText>(R.id.edtDescripcion)
         val btnGuardar = findViewById<Button>(R.id.btnGuardar)
         val btnActualizarFoto = findViewById<Button>(R.id.btnActualizarFoto)
-        val spinner = findViewById<Spinner>(R.id.spinnerPais)
+        val spinner = findViewById<Spinner>(R.id.spinnerGenero)
         val radioGroup = findViewById<RadioGroup>(R.id.radioGroup)
         val cbPerfilPublico = findViewById<CheckBox>(R.id.cbPerfilPublico)
 
         imgPerfil = findViewById(R.id.imagenPerfil)
-        
+
+        //rellenar campos
         if (DataHolder.nombre != ""){
             edtNombre.setText(DataHolder.nombre);
         }
         if (DataHolder.descripcion != ""){
             edtDescripcion.setText(DataHolder.descripcion);
         }
-        if(DataHolder.pais.isNotEmpty()){
-            val index = (spinner.adapter as ArrayAdapter<String>).getPosition(DataHolder.pais)
+        if(DataHolder.genero.isNotEmpty()){
+            val index = (spinner.adapter as ArrayAdapter<String>).getPosition(DataHolder.genero)
             spinner.setSelection(index)
         }
-        if(DataHolder.genero != null){
-            if(DataHolder.genero == "Hombre"){
+        if(DataHolder.opcionSeleccionada != null){
+            if(DataHolder.opcionSeleccionada == "Hombre"){
                 val rbHombre = radioGroup.getChildAt(0) as RadioButton
                 rbHombre.isChecked = true;
-            }else if(DataHolder.genero == "Mujer"){
+            }else if(DataHolder.opcionSeleccionada == "Mujer"){
                 val rbMujer = radioGroup.getChildAt(1) as RadioButton
                 rbMujer.isChecked = true;
-            }else if (DataHolder.genero == "Otro"){
+            }else if (DataHolder.opcionSeleccionada == "Otro"){
                 val rbOtro = radioGroup.getChildAt(2) as RadioButton
                 rbOtro.isChecked = true;
-            }else if (DataHolder.genero == "Prefiero no decirlo"){
+            }else if (DataHolder.opcionSeleccionada == "Prefiero no decirlo"){
                 val rbNoDecirlo = radioGroup.getChildAt(3) as RadioButton
                 rbNoDecirlo.isChecked = true;
             }
         }
         cbPerfilPublico.isChecked = DataHolder.perfilPublico
-        
+
+        //  Mostrar foto si ya existe
         if (DataHolder.fotoPerfil != null) {
             imgPerfil.setImageURI(DataHolder.fotoPerfil)
             uriPerfil = DataHolder.fotoPerfil
         }
-        
+
+//        btnActualizarFoto.setOnClickListener {
+//            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+//            intent.addCategory(Intent.CATEGORY_OPENABLE)
+//            intent.type = "image/*"
+//            intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION or
+//                    Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
+//            startActivityForResult(intent, PICK_PROFILE)
+//        }
+
         btnActualizarFoto.setOnClickListener {
             if (checkSelfPermission(android.Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
 
-                requestPermissions(arrayOf(android.Manifest.permission.CAMERA), PETICION_CAMARA)
+                requestPermissions(arrayOf(android.Manifest.permission.CAMERA), CAMERA_REQUEST)
 
             } else {
                 abrirCamara()
@@ -89,35 +100,57 @@ class EditProfileActivity : AppCompatActivity() {
 
             DataHolder.nombre = edtNombre.text.toString()
             DataHolder.descripcion = edtDescripcion.text.toString()
-            
-            val spinner = findViewById<Spinner>(R.id.spinnerPais)
-            DataHolder.pais = spinner.selectedItem.toString()
 
+            // Spinner
+            val spinner = findViewById<Spinner>(R.id.spinnerGenero)
+            DataHolder.genero = spinner.selectedItem.toString()
 
+            // RadioGroup
             val radioGroup = findViewById<RadioGroup>(R.id.radioGroup)
             val selectedId = radioGroup.checkedRadioButtonId
             if (selectedId != -1) {
                 val radioButton = findViewById<RadioButton>(selectedId)
-                DataHolder.genero = radioButton.text.toString()
+                DataHolder.opcionSeleccionada = radioButton.text.toString()
                 var valor:String = radioButton.text.toString()
                 var valor2:String = radioButton.text.toString()
             }
-            
+
+            // Checkbox
             val cbPerfilPublico = findViewById<CheckBox>(R.id.cbPerfilPublico)
             DataHolder.perfilPublico = cbPerfilPublico.isChecked
-            
+
+            // Foto
             DataHolder.fotoPerfil = uriPerfil
 
             finish()
         }
     }
-    
+
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//
+//        if (resultCode == Activity.RESULT_OK && data != null) {
+//            val uri = data.data
+//
+//            if (requestCode == PICK_PROFILE && resultCode == Activity.RESULT_OK) {
+//                val bitmap = data?.extras?.get("data") as? Bitmap
+//                if (bitmap != null) {
+//
+//                    imgPerfil.setImageBitmap(bitmap)
+//
+//                    val uri = saveBitmapToCache(bitmap)
+//                    uriPerfil = uri
+//                    DataHolder.fotoPerfil = uri
+//                }
+//            }
+//        }
+//    }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (resultCode == Activity.RESULT_OK && data != null) {
 
-            if (requestCode == FOTO_SACADA) {
+            if (requestCode == PICK_PROFILE) {
 
                 val bitmap = data.extras?.get("data") as? Bitmap
 
@@ -133,7 +166,8 @@ class EditProfileActivity : AppCompatActivity() {
             }
         }
     }
-    
+
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -141,7 +175,7 @@ class EditProfileActivity : AppCompatActivity() {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
-        if (requestCode == PETICION_CAMARA && grantResults.isNotEmpty()
+        if (requestCode == CAMERA_REQUEST && grantResults.isNotEmpty()
             && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
             abrirCamara()
@@ -161,6 +195,6 @@ class EditProfileActivity : AppCompatActivity() {
     }
     private fun abrirCamara() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        startActivityForResult(intent, FOTO_SACADA)
+        startActivityForResult(intent, PICK_PROFILE)
     }
 }
