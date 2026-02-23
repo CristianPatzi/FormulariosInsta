@@ -113,9 +113,19 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:text="Descripción del usuario"
-                    app:layout_constraintBottom_toTopOf="@+id/txtGenero"
+                    app:layout_constraintBottom_toTopOf="@+id/txtPais"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/txtNombre" />
+
+                <TextView
+                    android:id="@+id/txtPais"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:text="País:"
+                    app:layout_constraintBottom_toTopOf="@+id/txtGenero"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txtDescripcion" />
 
                 <TextView
                     android:id="@+id/txtGenero"
@@ -123,19 +133,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:text="Género:"
-                    app:layout_constraintBottom_toTopOf="@+id/txtOpcion"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txtDescripcion" />
-
-                <TextView
-                    android:id="@+id/txtOpcion"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:text="Opción:"
                     app:layout_constraintBottom_toTopOf="@+id/txtPerfilPublico"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txtGenero" />
+                    app:layout_constraintTop_toBottomOf="@+id/txtPais" />
 
                 <TextView
                     android:id="@+id/txtPerfilPublico"
@@ -145,7 +145,7 @@
                     android:text="Perfil Público/Privado"
                     app:layout_constraintBottom_toTopOf="@+id/layoutPublicaciones"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txtOpcion" />
+                    app:layout_constraintTop_toBottomOf="@+id/txtGenero" />
 
                 <Button
                     android:id="@+id/btnSubirFoto"
