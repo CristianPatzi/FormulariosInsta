@@ -6,18 +6,31 @@ import android.provider.ContactsContract
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.databinding.DataBindingUtil
 
 import com.example.formularios.databinding.ActivityContactsBinding
 
 lateinit var bindingContacts: ActivityContactsBinding
 class ContactsActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_contacts)
+
         bindingContacts = DataBindingUtil.setContentView(this, R.layout.activity_contacts)
 
+        ViewCompat.setOnApplyWindowInsetsListener(bindingContacts.root) { view, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.setPadding(
+                view.paddingLeft,
+                view.paddingTop,
+                view.paddingRight,
+                systemBars.bottom
+            )
+            insets
+        }
         bindingContacts.back.setOnClickListener {
             finish()
         }
@@ -26,13 +39,13 @@ class ContactsActivity : AppCompatActivity() {
                 == PackageManager.PERMISSION_GRANTED
             ) {
                 cargarContactosDelDispositivo()
-                onResume()
+                actualizarPantalla()
             } else {
                 requestPermissions(arrayOf(android.Manifest.permission.READ_CONTACTS), 100)
             }
         }
-
     }
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -44,7 +57,7 @@ class ContactsActivity : AppCompatActivity() {
             grantResults[0] == PackageManager.PERMISSION_GRANTED
         ) {
             cargarContactosDelDispositivo()
-            onResume()
+            actualizarPantalla()
         }
     }
 
@@ -77,17 +90,16 @@ class ContactsActivity : AppCompatActivity() {
         Log.d("CONTACTOS", "Total importados: ${DataHolder.contactos.size}")
     }
 
-    override fun onResume() {
-        super.onResume()
+    private fun actualizarPantalla() {
+        val builder = StringBuilder()
         var contador = 0
 
         for (c in DataHolder.contactos) {
-            Log.d("CONTACTO", "Nombre: ${c.nombre}, Tel: ${c.telefono}")
+            builder.append("• ${c.nombre} - ${c.telefono}\n")
             contador++
         }
 
-        bindingContacts.contactsTextView.text = ""
+        bindingContacts.contactsTextView.text = builder.toString()
         bindingContacts.TotalTextView.text = "Total Contactos: $contador"
     }
-
 }

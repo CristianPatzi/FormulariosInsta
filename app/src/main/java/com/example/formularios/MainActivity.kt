@@ -5,15 +5,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.example.formularios.DataHolder
 import kotlin.jvm.java
 
 
@@ -31,8 +27,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var publicaciones: List<ImageView>
 
 
-    private val PICK_IMAGE = 100
-    private val PICK_PROFILE = 200
+    private val FOTO_GALERIA = 100
+    private val FOTO_PERFIL = 200
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -80,13 +76,13 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btnSubirFoto).setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/*"
-            startActivityForResult(intent, PICK_IMAGE)
+            startActivityForResult(intent, FOTO_GALERIA)
         }
 
         imgPerfil.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/*"
-            startActivityForResult(intent, PICK_PROFILE)
+            startActivityForResult(intent, FOTO_PERFIL)
         }
     }
 
@@ -122,9 +118,12 @@ class MainActivity : AppCompatActivity() {
             val uri = data.data
 
             when (requestCode) {
-                PICK_PROFILE -> imgPerfil.setImageURI(uri)
+                FOTO_PERFIL -> {
+                    imgPerfil.setImageURI(uri)
+                    DataHolder.fotoPerfil = uri
+                }
 
-                PICK_IMAGE -> {
+                FOTO_GALERIA -> {
                     if (contadorPublicaciones < publicaciones.size) {
                         publicaciones[contadorPublicaciones].setImageURI(uri)
                         contadorPublicaciones++
