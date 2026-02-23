@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var txtNombre: TextView
     private lateinit var txtGenero: TextView
     private lateinit var txtDescripcion: TextView
-    private lateinit var txtOpcion: TextView
+    private lateinit var txtPais: TextView
 
     private lateinit var txtPerfilPublico: TextView
     private lateinit var textNumero: TextView
@@ -43,16 +43,16 @@ class MainActivity : AppCompatActivity() {
         txtDescripcion = findViewById(R.id.txtDescripcion)
         txtGenero = findViewById(R.id.txtGenero)
         layoutPublicaciones = findViewById(R.id.layoutPublicaciones)
-        txtOpcion = findViewById(R.id.txtOpcion)
+        txtPais = findViewById(R.id.txtPais)
         txtPerfilPublico = findViewById(R.id.txtPerfilPublico)
         textNumero = findViewById(R.id.textNumero)
 
 
-        txtNombre.text = "Millan"
-        txtDescripcion.text = "Buenas soy programador de prácticas. Un saludo"
-        txtGenero.text = "Hombre"
-        txtOpcion.text = "Espana"
-        txtPerfilPublico.text = "Privado"
+        txtNombre.text = "Nombre: Millan"
+        txtDescripcion.text = "Descripción: Buenas soy programador de prácticas. Un saludo"
+        txtGenero.text = "Género: Hombre"
+        txtPais.text = "País: Espana"
+        txtPerfilPublico.text = "Perfil Privado"
         imgPerfil.setImageResource(R.drawable.perfil1)
 
 
@@ -97,16 +97,16 @@ class MainActivity : AppCompatActivity() {
             textNumero.setText(DataHolder.contactosTotales.toString())
         }
         if (DataHolder.nombre.isNotEmpty())
-            txtNombre.text = DataHolder.nombre
+            txtNombre.text = "Nombre: ${DataHolder.nombre}"
 
         if (DataHolder.descripcion.isNotEmpty())
-            txtDescripcion.text = DataHolder.descripcion
+            txtDescripcion.text = "Descripción: ${DataHolder.descripcion}"
+
+        if (DataHolder.pais.isNotEmpty())
+            txtPais.text = "País: ${DataHolder.pais}"
 
         if (DataHolder.genero.isNotEmpty())
             txtGenero.text = "Género: ${DataHolder.genero}"
-
-        if (DataHolder.opcionSeleccionada.isNotEmpty())
-            txtOpcion.text = "Opción: ${DataHolder.opcionSeleccionada}"
 
         txtPerfilPublico.text =
             if (DataHolder.perfilPublico) "Perfil Público" else "Perfil Privado"

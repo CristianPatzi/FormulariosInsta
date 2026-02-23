@@ -74,12 +74,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Descripción"
-                    app:layout_constraintBottom_toTopOf="@+id/spinnerGenero"
+                    app:layout_constraintBottom_toTopOf="@+id/spinnerPais"
                     app:layout_constraintTop_toBottomOf="@+id/edtNombre"
                     tools:layout_editor_absoluteX="-56dp" />
 
                 <Spinner
-                    android:id="@+id/spinnerGenero"
+                    android:id="@+id/spinnerPais"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:entries="@array/pais"
@@ -93,7 +93,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     app:layout_constraintBottom_toTopOf="@+id/cbPerfilPublico"
-                    app:layout_constraintTop_toBottomOf="@+id/spinnerGenero"
+                    app:layout_constraintTop_toBottomOf="@+id/spinnerPais"
                     tools:layout_editor_absoluteX="20dp">
 
                     <RadioButton

@@ -5,8 +5,8 @@ import android.net.Uri
 object DataHolder {
     var nombre: String = ""
     var descripcion: String = ""
+    var pais: String = ""
     var genero: String = ""
-    var opcionSeleccionada: String = ""
     var perfilPublico: Boolean = false
     var fotoPerfil: Uri? = null
     data class Contacto(
